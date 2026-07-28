@@ -7,7 +7,7 @@ class Account():
         Account.account_no += 1
 
     def show_bank_details(self):
-        return ("Account No :", self.acc_no,"Name :",self.acc_hol ,"Balance :",self.bal ,"IFSC Code :", self.IFSC_Code)
+        return ("Account No :", self.acc_no,"Name :",self.acc_hol ,"Balance :",self.bal )#"IFSC Code :", self.IFSC_Code cannot be because we are writing code for individual bank account
 
     def Deposit(self, amount):
         self.bal += amount
@@ -53,10 +53,9 @@ class Current(Account):
         if amount<=0:
             raise ValueError("Invalid amount")
         else:
-            self.overdaft = amount
+            self.overdraft = amount
 
     def withdraw(self, amount):
-        
         #allowed max limit
         max_allowed=self.bal + self.overdraft
         if amount > max_allowed:
@@ -65,7 +64,7 @@ class Current(Account):
             self.bal -= amount
 
     def show_current_acc_details(self):
-        return ("Account No :", self.acc_no,"Name :",self.acc_hol ,"Balance :",self.bal, " Over draft ", self.overdaft)
+        return ("Account No :", self.acc_no,"Name :",self.acc_hol ,"Balance :",self.bal, " Over draft ", self.overdraft)
 
 
 sobj=Savings("Rohit",20000,2000)
@@ -74,3 +73,11 @@ sobj.withdraw(1000)                     #Previously :In your Savings class, I de
 print(sobj.show_saving_acc_details())
 sobj.Deposit(10000)
 print(sobj.show_saving_acc_details())
+
+
+cobj=Current("Rohit",20000,20000)
+print(cobj.show_current_acc_details())
+cobj.withdraw(25000)                     
+print(cobj.show_current_acc_details())
+cobj.Deposit(10000)
+print(cobj.show_current_acc_details())
