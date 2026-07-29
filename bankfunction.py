@@ -74,7 +74,6 @@ print(sobj.show_saving_acc_details())
 sobj.Deposit(10000)
 print(sobj.show_saving_acc_details())
 
-
 cobj=Current("Rohit",20000,20000)
 print(cobj.show_current_acc_details())
 cobj.withdraw(25000)                     
