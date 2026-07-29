@@ -1,11 +1,22 @@
 class Employee():
     start_empid = 1001  # Class variable
 
-    def __init__(self,empname,salary):
-       self.empid = Employee.start_empid
-       Employee.start_empid +=1
-       self.setEmpName(empname)
-       self.setSalary(salary)
+    def __init__(self,empname,salary,deptobj,addressobj):
+      self.empid = Employee.start_empid
+      Employee.start_empid +=1
+      self.setEmpName(empname)
+      self.setSalary(salary)
+       #adding asssociation of department with Employee
+       #self.department = deptobj
+      self.setDepartment(deptobj)
+      #setting getter method (association of dept with employee class)
+      self.setAddress(addressobj)
+
+    def getDeptDetails(self):
+      return self.department.showDeptDetails()
+    
+    def getAddress(self):
+         return self.address.showAddressDetails()
 
        #centralised validation logic
 
@@ -14,6 +25,13 @@ class Employee():
            raise AttributeError("Employee name cannot be left blank")
         else :
            self.empname = empname
+
+    def setDepartment(self, deptobj):
+        self.department = deptobj
+
+    def setAddress(self, addressobj):
+        self.address=addressobj
+
 
     def setSalary(self,salary):
         if salary <=0 :
@@ -28,8 +46,8 @@ class Employee():
         pass
 
 class Manager(Employee):
-    def __init__(self, empname,salary, perks):
-        super().__init__(empname, salary)
+    def __init__(self, empname,salary, perks, deptobj):
+        super().__init__(empname, salary,deptobj )
         self.setPerks(perks)
 
     def setPerks(self,perks):
@@ -43,8 +61,8 @@ class Manager(Employee):
         return self.salary + self.perks
 
 class Salesman(Employee):
-    def __init__(self,empname,salary,commission):
-        super().__init__(empname,salary)
+    def __init__(self,empname,salary,commission,deptobj):
+        super().__init__(empname,salary ,deptobj)
         self.setCommission(commission)
 
 
@@ -57,13 +75,6 @@ class Salesman(Employee):
     def show_total_salary(self):
         return self.salary + self.commission
 
-M1= Manager("Jhon",125000,50000)
-print(M1.show_total_salary())
-M1.show_emp_details()
-
-S1= Salesman("Ron",100000,10000)
-print(S1.show_total_salary())
-S1.show_emp_details()
 
 
 
