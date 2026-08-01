@@ -1,13 +1,13 @@
 class Account():
     account_no = 100001 # initiate account no
-    def __init__(self, acc_hol, bal):
-        self.acc_hol= acc_hol
+    def __init__(self, customer, bal):
+        self.customer= customer
         self.bal = bal
         self.acc_no=Account.account_no
         Account.account_no += 1
 
     def show_bank_details(self):
-        return ("Account No :", self.acc_no,"Name :",self.acc_hol ,"Balance :",self.bal )#"IFSC Code :", self.IFSC_Code cannot be because we are writing code for individual bank account
+        return ("Account No :", self.acc_no,"Name :",self.customer ,"Balance :",self.bal )#"IFSC Code :", self.IFSC_Code cannot be because we are writing code for individual bank account
 
     def Deposit(self, amount):
         self.bal += amount
@@ -18,8 +18,8 @@ class Account():
 # saving acc under the parent class Bank
 
 class Savings(Account):
-    def __init__(self,acc_hol, bal, minbal):
-        super().__init__(acc_hol,bal)
+    def __init__(self,customer, bal, minbal):
+        super().__init__(customer,bal)
         #self.minbal = minbal
         self.setMinBal(minbal)
 
@@ -40,12 +40,12 @@ class Savings(Account):
             self.bal -= amount
         
     def show_saving_acc_details(self):
-        return("Account No :", self.acc_no,"Name :",self.acc_hol ,"Balance :",self.bal, "Min Bal:", self.minbal)
+        return("Account No :", self.acc_no,"Name :",self.customer ,"Balance :",self.bal, "Min Bal:", self.minbal)
 
    
 class Current(Account):
-    def __init__(self,acc_hol,bal ,overdraft): 
-        super().__init__(acc_hol, bal)
+    def __init__(self,customer,bal ,overdraft): 
+        super().__init__(customer, bal)
         #self.overdraft = overdraft
         self.setOverdraft(overdraft)
 
@@ -64,7 +64,19 @@ class Current(Account):
             self.bal -= amount
 
     def show_current_acc_details(self):
-        return ("Account No :", self.acc_no,"Name :",self.acc_hol ,"Balance :",self.bal, " Over draft ", self.overdraft)
+        return ("Account No :", self.acc_no,"Name :",self.customer ,"Balance :",self.bal, " Over draft ", self.overdraft)
+
+class Customer:
+    CustID=100
+    def __init__(self,customername,address):
+        self.customername=customername
+        self.address=address
+        Customer.CustID +=1
+        self.customerid= Customer.CustID
+
+    def showCustomerDetails(self):
+        return ("Customer ID :",self.customerid,"Customer Name :",self.customername,"Customer Address :",self.address.showAddressDetails())
+
 
 
 sobj=Savings("Rohit",20000,2000)
@@ -79,4 +91,4 @@ print(cobj.show_current_acc_details())
 cobj.withdraw(25000)                     
 print(cobj.show_current_acc_details())
 cobj.Deposit(10000)
-print(cobj.show_current_acc_details())
+

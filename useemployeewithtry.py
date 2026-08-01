@@ -1,8 +1,9 @@
+'''
 from employeewithfunctions import *
 from department import Department
 from address import Address
 
-#suing nested try block
+#using nested try block
 
 try:
     dname= input("Enter Department name :")
@@ -52,5 +53,4 @@ print(empobj.getAddress())
 #     Salesman("Jhon",50000,-595)
 # except ValueError:
 #     print("Commission cannot be a negative value")
-
-
+'''

@@ -21,7 +21,7 @@ class Employee():
        #centralised validation logic
 
     def setEmpName(self,empname):
-        if len(empname)<0:
+        if len(empname)==0:
            raise AttributeError("Employee name cannot be left blank")
         else :
            self.empname = empname
@@ -46,14 +46,14 @@ class Employee():
         pass
 
 class Manager(Employee):
-    def __init__(self, empname,salary, perks, deptobj):
-        super().__init__(empname, salary,deptobj )
+    def __init__(self, empname,salary, perks, deptobj,addressobj):
+        super().__init__(empname, salary,deptobj,addressobj )
         self.setPerks(perks)
 
     def setPerks(self,perks):
-       if perks<=0 :
+        if perks<0 :
           raise ValueError("Perks cannot take negative value")
-       else :
+        else :
           self.perks = perks
 
 
@@ -61,23 +61,16 @@ class Manager(Employee):
         return self.salary + self.perks
 
 class Salesman(Employee):
-    def __init__(self,empname,salary,commission,deptobj):
-        super().__init__(empname,salary ,deptobj)
+    def __init__(self,empname,salary,commission,deptobj,addressobj):
+        super().__init__(empname,salary ,deptobj,addressobj)
         self.setCommission(commission)
 
 
     def setCommission(self,commission):
-       if commission<=0 :
+       if commission<0 :
           raise ValueError("Commission cannot take negative value")
        else :
           self.commission = commission
 
     def show_total_salary(self):
         return self.salary + self.commission
-
-
-
-
-
-
-
