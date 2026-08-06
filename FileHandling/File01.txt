@@ -1,0 +1,4 @@
+welcome to file handling
+Hello
+Hi
+Welcome

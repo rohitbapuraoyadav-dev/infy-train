@@ -1,22 +1,19 @@
 class Employee():
     start_empid = 1001  # Class variable
 
-    def __init__(self,empname,salary,deptobj,addressobj):
-      self.empid = Employee.start_empid
+    def __init__(self,empname,salary,deptobj, address):
+      self.empid = Employee.start_empid    
       Employee.start_empid +=1
       self.setEmpName(empname)
       self.setSalary(salary)
        #adding asssociation of department with Employee
        #self.department = deptobj
+
+      self.setAddress(address)
       self.setDepartment(deptobj)
-      #setting getter method (association of dept with employee class)
-      self.setAddress(addressobj)
 
     def getDeptDetails(self):
-      return self.department.showDeptDetails()
-    
-    def getAddress(self):
-         return self.address.showAddressDetails()
+        return self.department.showDeptDetails() #setting getter method (association of dept with employee class)
 
        #centralised validation logic
 
@@ -30,7 +27,12 @@ class Employee():
         self.department = deptobj
 
     def setAddress(self, addressobj):
-        self.address=addressobj
+
+        if addressobj is None:
+           raise ValueError
+           print("Invalid Address.")
+        else:
+            self.address=addressobj
 
 
     def setSalary(self,salary):
@@ -39,15 +41,25 @@ class Employee():
         else :
            self.salary = salary
 
+    def getSalary(self):
+       return self.salary
+
+    def getEmpId(self):
+       return self.empid
+
+    def getEmpName(self):
+       return self.empname
+
     def show_emp_details(self):
-        return "Employee Name:" , self.empname,"Employee ID :" , self.empid ,"Employee salary :" , self.salary
+        return "EmpId:",self.getEmpId(),"Employee Name:" , self.getEmpName(),"Employee salary :" , self.getSalary()
 
     def show_total_salary(self):
         pass
 
+
 class Manager(Employee):
-    def __init__(self, empname,salary, perks, deptobj,addressobj):
-        super().__init__(empname, salary,deptobj,addressobj )
+    def __init__(self, empname,salary,perks,deptobj,addressobj):
+        super().__init__(empname, salary,deptobj,addressobj ) #pass the values to the base class
         self.setPerks(perks)
 
     def setPerks(self,perks):
@@ -56,9 +68,13 @@ class Manager(Employee):
         else :
           self.perks = perks
 
+    def getPerks(self):
+       return self.perks
+
+
 
     def show_total_salary(self):
-        return self.salary + self.perks
+        return self.getSalary() + self.getPerks()
 
 class Salesman(Employee):
     def __init__(self,empname,salary,commission,deptobj,addressobj):
@@ -72,5 +88,8 @@ class Salesman(Employee):
        else :
           self.commission = commission
 
+    def getCommission(self):
+       return self.commission
+
     def show_total_salary(self):
-        return self.salary + self.commission
+        return self.getSalary + self.getCommission
