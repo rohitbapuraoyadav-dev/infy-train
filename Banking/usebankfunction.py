@@ -1,4 +1,6 @@
-from bankfn import Customer,Savings,Current
+import os
+import pickle
+from bankfn import Account,Savings,Current,Customer
 from addrs import Address
 
 # Account()
@@ -23,13 +25,32 @@ from addrs import Address
 #     print("Overdraft limit exceeded")
 
 try:
-    addrsobj=Address("Hinjewadi","Pune","322123")
+    addrsobj=Address("Hinjewadi","Pune","411057")
     cobj=Customer("Ganesh",addrsobj,)
-    savobj=Savings(cobj,25000,2000)
-    print(savobj.show_saving_acc_details(),cobj.showCustomerDetails())
-    savobj.Deposit(5000)
-except ValueError:
-    print("Invalid Input.")
+    try:
+        savobj=Savings(cobj,25000,2000)
+        #savobj.setAddress(addrsobj)
+        print(savobj.customer.address.showAddressDetails())
+    
+    except ValueError:
+        print("Invalid Input.")
 
-print(cobj.showCustomerDetails())
-print(addrsobj.showAddressDetails())
+    try:
+        curtobj=Current(cobj,25000,20000)
+       # curtobj.setAddress(addrsobj)
+        print(curtobj.show_current_acc_details(),
+              cobj.showCustomerDetails())
+
+    except ValueError:
+        print("Invalid Input")
+
+    acc=set()
+    acc.add(savobj)
+    acc.add(curtobj)
+    cobj.setAccount(acc)
+
+except ValueError:
+    print("Invalid Values.")
+
+# print(cobj.showCustomerDetails())
+# print(addrsobj.showAddressDetails())
