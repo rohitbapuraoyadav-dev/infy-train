@@ -4,7 +4,8 @@ class Treatment():
     valid_treatments = ["Surgery","Dialysis","ICU Care","Cardiac Care",
                         "Orthopedic Treatment","Maternity Care","Chemotherapy",
                         "Respiratory Therapy","Dental Treatment","Vaccination",
-                        "Physiotherapy","General Consultation"]
+                        "Physiotherapy","General Consultation"
+                        ""]
 
 
     def __init__(self,doctor,treatment_type,treatment_date,cost):
