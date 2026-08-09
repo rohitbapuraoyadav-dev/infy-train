@@ -1,8 +1,10 @@
 from datetime import datetime
 
 class Treatment():
-
-    valid_treatments=["Surgery","Physiotheraphy","Dental","Vaccination"]
+    valid_treatments = ["Surgery","Dialysis","ICU Care","Cardiac Care",
+                        "Orthopedic Treatment","Maternity Care","Chemotherapy",
+                        "Respiratory Therapy","Dental Treatment","Vaccination",
+                        "Physiotherapy","General Consultation"]
 
 
     def __init__(self,doctor,treatment_type,treatment_date,cost):

@@ -28,7 +28,7 @@ class Patient():
 
     def show_patient_details(self):
         return("Patient ID :",self.p_id,"Patient Name :",
-               self.pname,"Age :",self.age,"Gender :",self.gender,
+               self.pname,"DOB:",self.dob,"Gender :",self.gender,
                "Registration Date:",self.reg_date)
 
     #inpatient and outpatient as derived classes  

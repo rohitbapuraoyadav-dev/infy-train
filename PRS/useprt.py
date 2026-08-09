@@ -12,7 +12,7 @@ try:
 
     print(insobj.show_insurance_details())
 
-    patient1= Patient("Rohan Sharma",45,"Male","2026-07-20",insobj)
+    patient1= Patient("Rohan Sharma","1995-02-03","Male","2026-07-20",insobj)
     print("Insurance Available:",patient1.hasInsurance())
     print(treatobj.show_treatment_details())
     print(patientobj.show_InPatient_details())
