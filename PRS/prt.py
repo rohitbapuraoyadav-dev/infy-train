@@ -1,13 +1,27 @@
+from datetime import datetime
+
 class Patient():
-    patient_id = 1001 #class variable,initiare account no.
-    def __init__(self,pname,age,gender,reg_date,insurance=None):
+    patient_id = 1001 #class variable,initiate patient id.
+    def __init__(self,pname,dob,gender,reg_date,insurance=None):
         self.pname=pname
-        self.age = age
+        self.dob = dob
         self.gender = gender
         self.reg_date = reg_date
         self.insurance=insurance # associated class
-        self.p_id = Patient.patient_id
+        self.p_id = Patient.patient_id #only after validation of other data members the patient id is generated
         Patient.patient_id +=1
+
+    def getAge(self):
+        birth_date=datetime.strptime(self.dob,"%Y-%m-%d").date()
+        today = datetime.today().date()
+
+        age=today.year - birth_date.year
+
+        if (today.month,today.day)<(birth_date):
+            age-= 1
+        return age
+
+    
 
     def hasInsurance(self):
         return self.insurance is not None
@@ -57,19 +71,19 @@ class Outpatient(Patient):
             raise ValueError("Appointment allowed only between 11 AM-1 PM and 2 PM-4 PM.")
 
     def show_Outpatient_details(self):
-        return (
-        f"Patient ID: {self.p_id}, "
-        f"Patient Name: {self.pname}, "
-        f"Age: {self.age}, "
-        f"Gender: {self.gender}, "
-        f"Registration Date: {self.reg_date}, "
-        f"Consultation Fee: {self.consult_fee}, "
-        f"Appointment Time: {self.app_time}"
-    )
+        return f"""
+        "Patient ID: {self.p_id}"
+        "Patient Name: {self.pname}"
+        "DOB:{self.dob}"
+        "Age: {self.getAge()} "
+        "Gender: {self.gender} "
+        "Registration Date: {self.reg_date} "
+        "Consultation Fee: {self.consult_fee} "
+        "Appointment Time: {self.app_time}" """
 
 class Inpatient(Patient):
-    def __init__(self, pname, age, gender, reg_date,insurance,days_admitted,total_bill):
-            super().__init__(pname, age, gender, reg_date,insurance)
+    def __init__(self, pname, dob, gender, reg_date,insurance,days_admitted,total_bill):
+            super().__init__(pname, dob, gender, reg_date,insurance)
 
             self.setDaysAdmitted(days_admitted)
             self.setTotalBill(total_bill)
@@ -92,15 +106,15 @@ class Inpatient(Patient):
         return max(final_bill,0)
 
     def show_InPatient_details(self):
-        return(
-                f"Patient ID: {self.p_id} "
-                f"Patient Name: {self.pname} "
-                f"Age: {self.age} "
-                f"Gender: {self.gender} "
-                f"Registration Date: {self.reg_date}, "
-                f"Total day admitted: {self.days_admitted} "
-                f"Total Bill : {self.total_bill}"
-                f"Insurance Coverage : {self.insurance.coverage}"
-                f"Final Payable Bill : {self.getFinalBill()}"
-                )
+        return f"""
+                "Patient ID: {self.p_id} "
+                "Patient Name: {self.pname} "
+                "DOB:":{self.dob}"
+                "Age: {self.getAge()} "
+                "Gender: {self.gender} "
+                "Registration Date: {self.reg_date}"
+                "Total day admitted: {self.days_admitted} "
+                "Total Bill : {self.total_bill}"
+                "Insurance Coverage : {self.insurance.coverage}"
+                "Final Payable Bill : {self.getFinalBill()}" """
     

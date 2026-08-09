@@ -51,7 +51,11 @@ class Employee():
        return self.empname
 
     def show_emp_details(self):
-        return "EmpId:",self.getEmpId(),"Employee Name:" , self.getEmpName(),"Employee salary :" , self.getSalary()
+       return f"""
+      Employee Id : {self.empid}
+      Employee Name : {self.empname}
+      Salary : {self.salary}"""
+
 
     def show_total_salary(self):
         pass
@@ -92,4 +96,4 @@ class Salesman(Employee):
        return self.commission
 
     def show_total_salary(self):
-        return self.getSalary + self.getCommission
+        return self.getSalary() + self.getCommission()

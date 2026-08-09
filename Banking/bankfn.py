@@ -56,11 +56,11 @@ class Savings(Account):
         else:
             self.bal -= amount
 
-        def show_saving_acc_details(self):
-            return (
-        "Account No:", self.acc_no,
-        "Balance:", self.bal,
-        "Minimum Balance:", self.minbal)
+    def show_saving_acc_details(self):
+            return f"""
+            Account No:{self.acc_no }
+            Balance:{self.bal}
+            Minimum Balance: {self.minbal}"""
 
    
 class Current(Account):

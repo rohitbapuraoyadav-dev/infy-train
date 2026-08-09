@@ -13,7 +13,13 @@ def ReadDeptObject():
         deptobj=pickle.load(file)
     print("Dept Id:", deptobj.getDeptId())
     for emp in deptobj.getEmployee():
-        print("Emp Details:", emp.getEmpId(),emp.getEmpName(),emp.getSalary())
+        print(
+        f"Employee ID: {emp.getEmpId()}",
+        f"Name: {emp.getEmpName()}",
+        f"Basic Salary: {emp.getSalary()}",
+        f"Total Salary: {emp.show_total_salary()}",
+        sep="\n")
+        print("-" * 40)
       
 
 try:
@@ -30,7 +36,7 @@ try:
         print("Invalid values in manager")
 
     try:
-        empobj2=Salesman("Crk01",43567,654456,deptobj,addrsobj)
+        empobj2=Salesman("Slm01",43567,6544,deptobj,addrsobj)
         empobj2.setAddress(addrsobj)
         print(empobj2.show_emp_details())
     except ValueError:

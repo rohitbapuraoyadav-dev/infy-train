@@ -17,16 +17,16 @@ class Department:
         return self.Employee
 
     def setDeptName(self,deptname):
-        self.Department=deptname
+        self.deptname=deptname
         
     def setDeptLoc(self,loc):
-        self.Department=loc
+        self.location=loc
 
     def getDeptName(self):
-        return self.Department
+        return self.deptname
         
     def getDeptLoc(self):
-        return self.Loc
+        return self.location
 
     def getDeptId(self):
         return self.dptid        
