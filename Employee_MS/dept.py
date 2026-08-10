@@ -1,3 +1,4 @@
+
 class Department:
     dptcount=100
 
