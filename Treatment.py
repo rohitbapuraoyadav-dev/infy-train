@@ -29,13 +29,31 @@ class Treatment:
         "Respiratory Therapy": ["Chest X-Ray", "Pulmonary Function Test", "Oxygen Saturation Test"],
     }
 
-    def __init__(self, doctor, treatment_type, treatment_date, cost, tests_done=None):
+    # ---- fixed charges for in-patient procedures - never entered by the user ----
+    flat_rate_charges = {
+        "Surgery": 60000,
+        "ICU Care": 15000,
+        "Cardiac Care": 80000,
+        "Orthopedic Treatment": 45000,
+        "Maternity Care": 35000,
+        "Respiratory Therapy": 20000,
+    }
+
+    # ---- per-day admission/room charge for in-patients - added on top of the
+    # flat-rate procedure charge and multiplied by the expected stay (days) ----
+    daily_admission_charge = 3000
+
+    def __init__(self, doctor, treatment_type, treatment_date, tests_done=None, cost=None):
         self.setDoctor(doctor)
         self.setTreatmentType(treatment_type)
         self.setTestsDone(tests_done or [])
         self.checkPrerequisiteTests()             # records what's missing, does not block creation
         self.setTreatmentDate(treatment_date)
-        self.setCost(cost)
+
+        if self.isInpatientProcedure():
+            self.cost = Treatment.flat_rate_charges[treatment_type]   # auto-assigned, fixed rate
+        else:
+            self.setCost(cost)                                        # out-patient cost is variable
 
     # ---------------- setters ----------------
     def setDoctor(self, doctor):
@@ -52,10 +70,8 @@ class Treatment:
         self.tests_done = tests_done
 
     def setTreatmentDate(self, treatment_date):
-        t_date = datetime.strptime(treatment_date, "%Y-%m-%d").date()
-        if t_date > datetime.today().date():
-            raise ValueError("Treatment date cannot be in the future")
-        self.treatment_date = treatment_date
+        datetime.strptime(treatment_date, "%Y-%m-%d")   # only validates the format here;
+        self.treatment_date = treatment_date             # date-window rules live in the Patient subclass
 
     def setCost(self, cost):
         if cost <= 500:
@@ -77,6 +93,9 @@ class Treatment:
 
     def getCost(self):
         return self.cost
+
+    def getDailyAdmissionCharge(self):
+        return Treatment.daily_admission_charge
 
     # ---------------- classification helpers ----------------
     def isInpatientProcedure(self):

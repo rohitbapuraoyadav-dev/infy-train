@@ -125,21 +125,10 @@ class Inpatient(Patient):
     that runs after discharge, outside this registration system's scope).
     """
 
-    # illustrative flat-rate base costs per procedure
-    procedure_base_cost = {
-        "Surgery": 60000,
-        "ICU Care": 15000,
-        "Cardiac Care": 80000,
-        "Orthopedic Treatment": 45000,
-        "Maternity Care": 35000,
-        "Respiratory Therapy": 20000,
-    }
-    daily_room_charge = 2000
-
-    def __init__(self, pname, dob, gender, reg_date, insurance, expected_stay_days, treatment):
-        super().__init__(pname, dob, gender, reg_date, insurance)
+    def __init__(self, pname, dob, gender, reg_date, expected_stay_days, treatment, insurance=None):
+        super().__init__(pname, dob, gender, reg_date, insurance)   # insurance defaults to None - not asked
         self.setExpectedStayDays(expected_stay_days)
-        self.setTreatment(treatment)
+        self.setTreatment(treatment)                                 # also checks the treatment date rule below
         self.setEstimatedBill(self.calculateEstimatedBill())
 
     # ---------------- setters ----------------
@@ -151,6 +140,12 @@ class Inpatient(Patient):
     def setTreatment(self, treatment):
         if not treatment.isInpatientProcedure():
             raise ValueError(f"{treatment.getTreatmentType()} is not a valid in-patient procedure")
+
+        t_date = datetime.strptime(treatment.getTreatmentDate(), "%Y-%m-%d").date()
+        r_date = datetime.strptime(self.getRegDate(), "%Y-%m-%d").date()
+        if t_date < r_date:
+            raise ValueError("Treatment date must be on or after the registration date")
+
         self.treatment = treatment
 
     def setEstimatedBill(self, amount):
@@ -170,16 +165,12 @@ class Inpatient(Patient):
 
     # ---------------- computed ----------------
     def calculateEstimatedBill(self):
-        base = Inpatient.procedure_base_cost.get(self.treatment.getTreatmentType(), 0)
-        room_charges = Inpatient.daily_room_charge * self.getExpectedStayDays()
-        return base + room_charges
-
-    def getEstimatedPayable(self):
-        """Estimate only, for pre-authorization purposes - not a final invoice."""
-        if not self.hasInsurance():
-            return self.getEstimatedBill()
-        payable = self.getEstimatedBill() - self.getInsurance().getCoverage()
-        return max(payable, 0)
+        # treatment_charge = flat rate for the procedure (see Treatment.flat_rate_charges)
+        # admission_charges = Treatment.daily_admission_charge (Rs.3000) x expected stay (days)
+        # Estimated Bill = treatment_charge (flat rate) + admission_charges
+        treatment_charge = self.treatment.getCost()
+        admission_charges = self.treatment.getDailyAdmissionCharge() * self.getExpectedStayDays()
+        return treatment_charge + admission_charges
 
     # ---------------- overridden polymorphic details ----------------
     def getDetails(self):
@@ -190,12 +181,24 @@ class Inpatient(Patient):
         else:
             tests_status = (f"{len(treatment.getTestsDone())}/{treatment.getRequiredTestCount()} completed, "
                              f"pending: {', '.join(treatment.getMissingTests())}")
+        admission_charges = treatment.getDailyAdmissionCharge() * self.getExpectedStayDays()
+
+        if self.hasInsurance():
+            net_bill = self.getEstimatedBill() - self.getInsurance().getCoverage()
+            bill_display = "null" if net_bill < 0 else f"Rs.{net_bill:,.2f}"
+        else:
+            bill_display = f"Rs.{self.getEstimatedBill():,.2f}"
+
         fields += [
-            ("Procedure", self.treatment.getTreatmentType()),
+            ("Procedure", treatment.getTreatmentType()),
+            ("Treatment Charge (flat rate)", f"Rs.{treatment.getCost():,.2f}"),
             ("Prerequisite Tests", tests_status),
+            ("Treatment Date", treatment.getTreatmentDate()),
             ("Expected Stay", f"{self.getExpectedStayDays()} day(s)"),
-            ("Estimated Bill", f"Rs.{self.getEstimatedBill():,.2f}"),
-            ("Estimated Payable", f"Rs.{self.getEstimatedPayable():,.2f}"),
+            ("Admission Charges",
+             f"Rs.{treatment.getDailyAdmissionCharge():,.2f}/day x {self.getExpectedStayDays()} day(s) "
+             f"= Rs.{admission_charges:,.2f}"),
+            ("Estimated Bill", bill_display),
         ]
         return fields
 
