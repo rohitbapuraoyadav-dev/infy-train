@@ -41,6 +41,7 @@ try:
         print(empobj2.show_emp_details())
     except ValueError:
         print("Invalid vales in Salesman.")
+        
     emp=set()#set of employees 
     emp.add(empobj1)
     emp.add(empobj2)

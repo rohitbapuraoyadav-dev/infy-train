@@ -1,5 +1,5 @@
-from bankfn import Savings, Current, Customer
-from addrs import Address
+from BANKING import aCCOUNT,Savings, Current, Customer,Address
+
 import pickle
 
 def WriteCustomerObject(customer):
@@ -28,8 +28,15 @@ try:
     cobj = Customer("Ganesh", addrsobj)
 
     savobj = Savings(cobj, 25000, 2000)
+    print(savobj.show_bank_details())
+    savobj.withdraw(2000)
+    print(savobj.show_bank_details())
+
 
     curtobj = Current(cobj, 25000, 20000)
+    print(curtobj.show_bank_details())
+    curtobj.withdraw(2500)
+    print(curtobj.show_bank_details())
 
     acc = set()
     acc.add(savobj)

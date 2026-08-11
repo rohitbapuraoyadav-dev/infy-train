@@ -1,8 +1,7 @@
+from .Manager import Manager
 from .Employee import Employee
 from .Salesman import Salesman
-from .Manager import Manager
-from .addrs import Address
-from .dept import Department
+from .Department import Department
+from .Address import Address
 
-
-__all__=["Employee","Salesman","Manager","Address","Department"]
+__all__=["Manager","Salesman","Employee","Department","Address"]
