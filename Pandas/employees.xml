@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<company>
+    <employee>
+        <empid>101</empid>
+        <empname>Ganesh</empname>
+        <location>Pune</location>
+    </employee>
+
+    <employee>
+        <empid>102</empid>
+        <empname>Mahesh</empname>
+        <location>Pune</location>
+    </employee>
+</company>    
