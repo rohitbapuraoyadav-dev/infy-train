@@ -19,6 +19,7 @@ class Patient:
         self.setRegDate(reg_date)
         self.setInsurance(insurance)           # association with Insurance class
         Patient.patient_id += 1
+        
         self.p_id = Patient.patient_id
 
     # ---------------- setters ----------------

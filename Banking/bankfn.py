@@ -1,13 +1,15 @@
-class Account():
+class Account():  #Select max(accid from bankingdb.accounts)
     account_no = 100001 # initiate account no
     def __init__(self, customer, bal):
         self.setCustomer(customer)
         self.setBal(bal)
         self.acc_no=Account.account_no
         Account.account_no += 1
+        #Insert 
 
     def setCustomer(self,customer):
         self.customer=customer
+        
 
     def setBal(self,amount):
         if amount<0:
